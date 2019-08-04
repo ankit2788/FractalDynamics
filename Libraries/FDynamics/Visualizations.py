@@ -4,6 +4,10 @@ import matplotlib.pyplot as plt
 from matplotlib import animation
 import numpy as np
 
+from bokeh.plotting import figure, show, output_file
+from bokeh.models import ColumnDataSource, HoverTool, LinearAxis, Range1d, NumeralTickFormatter
+
+
 class Animation(ABC):
     '''
     ABC class for all animation objects
@@ -164,6 +168,79 @@ class CurveAnimation(Animation):
     def RunAnimation(self, Plotlimits = None, fig = None, axis = None, interval = 10, timer_in_epoch = True, time_dateobject = False):
 
         pass
+
+
+
+
+class BokehVisuals():
+    """
+    create plots with interactive charts (to be saved on html pages)
+    """
+
+    def __init__(self, data):
+        self.data = data            #a dataframe object
+
+    
+    def createPlot(self, outputpath, imagetitle, XAxisDetails, PrimaryAxisDetails, SecondaryAxis = True, SecondaryAxisDetails = None):
+        """
+        creates interactive plot and saves them
+        Input:
+        PrimaryAxisDetails/ SecondaryAxisDetails/ XAxisDetails: dictionary item with keys as below
+            a. data column name (COL_NAME)
+            b. data name to be present on chart (LABEL)
+            c. item to be present while hovering (HOVER)
+
+        """
+
+        y_axis_max = [self.data[PrimaryAxisDetails["COL_NAME"]].max() * 1.1]        #setting upper limit as 110% of max available value
+        y_axis_min = [0]
+        if SecondaryAxis:
+            y_axis_max.append(self.data[SecondaryAxisDetails["COL_NAME"]].max() * 1.1)
+            y_axis_min.append(0)
+
+        hoverfields = [(PrimaryAxisDetails["LABEL"], PrimaryAxisDetails["HOVER"])]
+        if SecondaryAxis:
+            hoverfields.append((SecondaryAxisDetails["LABEL"], SecondaryAxisDetails["HOVER"]))
+
+        hover = HoverTool(tooltips= hoverfields)
+
+        #creating bokeh figure object
+
+        p = figure(title = imagetitle, plot_height=400, plot_width=800, tools=[hover, "pan,reset,wheel_zoom"])
+        p.title.align = 'center'
+        p.title.text_color = "black"
+        p.title.text_font = "Century Gothic"
+        p.title.text_font_style = "italic"
+        p.title.text_font_size = '16pt'
+
+
+        p.xaxis.axis_label = XAxisDetails["LABEL"]
+        p.yaxis.axis_label = PrimaryAxisDetails["LABEL"]
+
+        p.y_range = Range1d(start=y_axis_min[0], end=y_axis_max[0])
+        p.yaxis.formatter=NumeralTickFormatter(format="00")
+        p.line(XAxisDetails["COL_NAME"], PrimaryAxisDetails["COL_NAME"], source=ColumnDataSource(self.data), color = "black")
+
+
+        #creating secondary axis
+        if SecondaryAxis:
+
+            p.extra_y_ranges = {SecondaryAxisDetails["LABEL"]: Range1d(start=y_axis_min[1], end=y_axis_max[1])}
+            
+
+            # Adding the second axis to the plot.  
+            p.add_layout(LinearAxis(y_range_name=SecondaryAxisDetails["LABEL"], axis_label=SecondaryAxisDetails["LABEL"]), 'right')
+
+            # Using the aditional y range named "foo" and "right" y axis here. 
+            p.line(XAxisDetails["COL_NAME"], SecondaryAxisDetails["COL_NAME"], source=ColumnDataSource(self.data),  y_range_name=SecondaryAxisDetails["LABEL"], color = "green")
+
+
+        p.legend.location = "top_left"
+
+
+        output_file(outputpath)
+
+        return p
 
         
 
