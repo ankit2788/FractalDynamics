@@ -191,7 +191,8 @@ class BokehVisuals():
         """
 
         y_axis_max = [self.data[PrimaryAxisDetails["COL_NAME"]].max() * 1.1]        #setting upper limit as 110% of max available value
-        y_axis_min = [0]
+        y_axis_min = [self.data[PrimaryAxisDetails["COL_NAME"]].min() * 1.1]        #setting upper limit as 110% of max available value
+        #y_axis_min = [0]
         if SecondaryAxis:
             y_axis_max.append(self.data[SecondaryAxisDetails["COL_NAME"]].max() * 1.1)
             y_axis_min.append(0)

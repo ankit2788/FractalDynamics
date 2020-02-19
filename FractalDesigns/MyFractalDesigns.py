@@ -5,135 +5,70 @@ Created on Wed May 22 09:26:54 2019
 
 @author: ankitgupta
 """
-from Fractals import IteratedFunctions, Transform, FractalImage, LinearTransform
+from IteratedFunctionSystems.IFS import ClassicIteratedFunctions
+from IteratedFunctionSystems.Drawing import FractalImage
+from IteratedFunctionSystems.Transformations.Transforms import LinearTransform
+from Utils import Config
+
 import matplotlib.pyplot as plt
 import math
 import numpy as np
 
-
+# ------------------------------------------------------------
 #Barnsley Fern
-Fern = IteratedFunctions()
-Linear1 = LinearTransform(0.01, False, [0, 0, 0, 0.16], [0, 0])
-Linear2 = LinearTransform(0.85, False, [0.85, 0.04, -0.04, 0.85], [0, 1.6])
-Linear3 = LinearTransform(0.07, False, [0.2, -0.26, 0.23, 0.22], [0, 1.6])
-Linear4 = LinearTransform(0.07, False, [-0.15, 0.28, 0.26, 0.24], [0, 0.44])
+Fern        = ClassicIteratedFunctions(name="Barnsley Fern")
+Fern.applyConfiguration(configPath= "/Users/ankitgupta/Documents/git/anks/FractalDynamics/FractalDesigns/Configs/IFS/Fern.ini")
+Fern.draw()
 
-Fern.add_transform(Linear1)
-Fern.add_transform(Linear2)
-Fern.add_transform(Linear3)
-Fern.add_transform(Linear4)
 
-x_fern, y_fern = FractalImage(Fern)
-
+# ------------------------------------------------------------
 #Dentrite 
-Dentrite = IteratedFunctions()
-Linear2 = LinearTransform(0.167, False, [0.342, -0.701, 0.071, 0.341], [0, 0])
-Linear1 = LinearTransform(0.167, False, [0.038, -0.346, 0.346, 0.038], [0.341, 0.071])
-Linear3 = LinearTransform(0.166, False, [0.341, -0.071, 0.071, 0.341], [.379, .418])
-Linear4 = LinearTransform(0.167, False, [-0.234, 0.258, -0.258, -0.234], [0.72, 0.489])
-Linear5 = LinearTransform(0.167, False, [0.173, 0.302, -0.302, 0.173], [0.486, 0.231])
-Linear6 = LinearTransform(0.166, False, [0.341, -0.071, 0.071, 0.341], [0.659, -0.071])
-
-Dentrite.add_transform(Linear1)
-Dentrite.add_transform(Linear2)
-Dentrite.add_transform(Linear3)
-Dentrite.add_transform(Linear4)
-Dentrite.add_transform(Linear5)
-Dentrite.add_transform(Linear6)
-
-x_den, y_den = FractalImage(Dentrite)
+Dentrite    = ClassicIteratedFunctions(name="Dentrite")
+Dentrite.applyConfiguration(configPath= "/Users/ankitgupta/Documents/git/anks/FractalDynamics/FractalDesigns/Configs/IFS/Dentrite.ini")
+Dentrite.draw()
 
 
+# ------------------------------------------------------------
 #Sierpinski
-Sierpinski = IteratedFunctions()
-Linear1 = LinearTransform(1/3, False, [0.5, 0, 0, 0.5], [0, 0])
-Linear2 = LinearTransform(1/3, False, [0.5, 0, 0, 0.5], [0.5, 0.5])
-Linear3 = LinearTransform(1/3, False, [0.5, 0, 0, 0.5], [1, 0])
+#1. Equilateral Triangle
+Sierpinski  = ClassicIteratedFunctions(name="Sierpinski Eq. Triangle")
+Sierpinski.applyConfiguration(configPath= "/Users/ankitgupta/Documents/git/anks/FractalDynamics/FractalDesigns/Configs/IFS/Sierpinski1.ini")
+Sierpinski.draw()
 
-Sierpinski.add_transform(Linear1)
-Sierpinski.add_transform(Linear2)
-Sierpinski.add_transform(Linear3)
+#2. Right Angled Triangle
+Sierpinski  = ClassicIteratedFunctions(name="Sierpinski Right Triangle")
+Sierpinski.applyConfiguration(configPath= "/Users/ankitgupta/Documents/git/anks/FractalDynamics/FractalDesigns/Configs/IFS/Sierpinski2.ini")
+Sierpinski.draw()
 
-x_sier, y_sier = FractalImage(Sierpinski)
 
+# ------------------------------------------------------------
 #Koch Curve
-cos60 = math.cos(math.radians(60))
-sin60 = math.sin(math.radians(60))
+Koch    = ClassicIteratedFunctions(name="Koch")
+Koch.applyConfiguration(configPath= "/Users/ankitgupta/Documents/git/anks/FractalDynamics/FractalDesigns/Configs/IFS/Koch.ini")
+Koch.draw()
 
-Koch = IteratedFunctions()
+# ------------------------------------------------------------
+#random IFS1
+random1     = ClassicIteratedFunctions(name="Random1")
+random1.applyConfiguration(configPath= "/Users/ankitgupta/Documents/git/anks/FractalDynamics/FractalDesigns/Configs/IFS/Random1.ini")
+random1.draw()
 
-Linear1 = LinearTransform(1/4, False, [1/3, 0, 0, 1/3], [0, 0])
-Linear2 = LinearTransform(1/4, False, [1/3 * cos60, -1/3*sin60, 1/3*sin60, 1/3 * cos60], [1/3, 0])
-Linear3 = LinearTransform(1/4, False, [1/3 * cos60, 1/3*sin60, -1/3*sin60, 1/3* cos60], [0.5, 1/3*sin60])
-Linear4 = LinearTransform(1/4, False, [1/3, 0, 0, 1/3], [2/3, 0])
+#random IFS2
+random2     = ClassicIteratedFunctions(name="Random2")
+random2.applyConfiguration(configPath= "/Users/ankitgupta/Documents/git/anks/FractalDynamics/FractalDesigns/Configs/IFS/Random2.ini")
+random2.draw()
 
-Koch.add_transform(Linear1)
-Koch.add_transform(Linear2)
-Koch.add_transform(Linear3)
-Koch.add_transform(Linear4)
-
-x_koch, y_koch = FractalImage(Koch)
-
-
-#random IFS
-random1 = IteratedFunctions()
-Linear1 = LinearTransform(0.1, True)
-Linear2 = LinearTransform(0.3, True)
-Linear3 = LinearTransform(0.05, True)
-Linear4 = LinearTransform(0.02, True)
-Linear5 = LinearTransform(0.23, True)
-Linear6 = LinearTransform(0.2, True)
-Linear7 = LinearTransform(0.1, True)
-
-random1.add_transform(Linear1)
-random1.add_transform(Linear2)
-random1.add_transform(Linear3)
-random1.add_transform(Linear4)
-random1.add_transform(Linear5)
-random1.add_transform(Linear6)
-random1.add_transform(Linear7)
-
-x_ran1, y_ran1 = FractalImage(random1)
-
-#random1
-random2 = IteratedFunctions()
-Linear1 = LinearTransform(0.01, False, [0, 0, 0, 0.16], [0, 0])
-Linear2 = LinearTransform(0.62, False, [1.2, 0.44, -1.04, 0.3], [0, 1.6])
-Linear3 = LinearTransform(0.23, False, [-0.2, 0.44, .04, 0.3], [0, 1.6])
-Linear4 = LinearTransform(0.07, False, [0.2, -0.26, 0.23, 0.22], [0, 1.6])
-Linear5 = LinearTransform(0.07, False, [-0.15, 0.28, 0.26, 0.24], [0, 0.44])
-
-random2.add_transform(Linear1)
-random2.add_transform(Linear2)
-random2.add_transform(Linear3)
-random2.add_transform(Linear4)
-random2.add_transform(Linear5)
-
-x_ran2, y_ran2 = FractalImage(random2)
-
-#random2
-random3 = IteratedFunctions()
-Linear1 = LinearTransform(0.01, False, [0, 0, 0, 0.16], [0, 0])
-Linear2 = LinearTransform(0.62, False, [1.2, 0.44, -1.04, 0.3], [1.6, -1.6])
-Linear3 = LinearTransform(0.23, False, [-0.2, 0.44, .04, 0.3], [0, 1.6])
-Linear4 = LinearTransform(0.01, False, [0.2, -0.26, 0.23, 0.22], [0, 1.6])
-Linear5 = LinearTransform(0.13, False, [-0.15, 0.28, 0.26, 0.24], [0, 0.44])
-
-random3.add_transform(Linear1)
-random3.add_transform(Linear2)
-random3.add_transform(Linear3)
-random3.add_transform(Linear4)
-random3.add_transform(Linear5)
-
-x_ran3, y_ran3 = FractalImage(random3)
-
+#random IFS3
+random3     = ClassicIteratedFunctions(name="Random3")
+random3.applyConfiguration(configPath= "/Users/ankitgupta/Documents/git/anks/FractalDynamics/FractalDesigns/Configs/IFS/Random3.ini")
+random3.draw()
 
 fig, ax = plt.subplots(1,2)    
-ax[0].scatter(np.array(x_fern), np.array(y_fern), c = "black", s = 0.15, alpha = 0.4)
+ax[0].scatter(np.array(Fern._Xaxis), np.array(Fern._Yaxis), c = "black", s = 0.15, alpha = 0.4)
 ax[0].set_axis_off()
 ax[0].set_title("Leaf")
 
-ax[1].scatter(np.array(x_ran3), np.array(y_ran3), c = "black", s = 0.15, alpha = 0.4)
+ax[1].scatter(np.array(random3._Xaxis), np.array(random3._Yaxis), c = "black", s = 0.15, alpha = 0.4)
 ax[1].set_axis_off()
 ax[1].set_title("Completely Random")
 
@@ -142,42 +77,15 @@ plt.suptitle("Guess the Transformations")
 
 
 fig, ax = plt.subplots(2,2)    
-ax[0,0].scatter(np.array(x_koch), np.array(y_koch), c = "black", s = 0.15, alpha = 0.4)
+ax[0,0].scatter(np.array(Koch._Xaxis), np.array(Koch._Yaxis), c = "black", s = 0.15, alpha = 0.4)
 ax[0,0].set_axis_off()
 
-ax[0,1].scatter(np.array(x_sier), np.array(y_sier), c = "black", s = 0.15, alpha = 0.4)
+ax[0,1].scatter(np.array(Sierpinski._Xaxis), np.array(Sierpinski._Yaxis), c = "black", s = 0.15, alpha = 0.4)
 ax[0,1].set_axis_off()
 
-ax[1,0].scatter(np.array(x_ran3), np.array(y_ran3), c = "black", s = 0.15, alpha = 0.4)
+ax[1,0].scatter(np.array(random3._Xaxis), np.array(random3._Yaxis), c = "black", s = 0.15, alpha = 0.4)
 ax[1,0].set_axis_off()
 
-ax[1,1].scatter(np.array(x_fern), np.array(y_fern), c = "black", s = 0.15, alpha = 0.4)
+ax[1,1].scatter(np.array(Fern._Xaxis), np.array(Fern._Yaxis), c = "black", s = 0.15, alpha = 0.4)
 ax[1,1].set_axis_off()
 
-
-plt.suptitle("Random Fractals")
-
-
-random4 = IteratedFunctions()
-#Linear1 = LinearTransform(1, False, [0.95*cos60, -0.5*sin60, 0.5*sin60, -.95*cos60], [1, 0.0])
-Linear1 = LinearTransform(1, True)
-random4.add_transform(Linear1)
-
-x_ran4, y_ran4 = FractalImage(random4)
-
-plt.figure()
-plt.scatter(np.array(x_ran3), np.array(y_ran3), c = "black", s = 0.15, alpha = 0.4)
-
-plt.title("Sierpinski Triangle")
-plt.axis("off")
-
-
-x1, y1 = x, y
-
-
-maxi = 0
-for color in allcolors:
-    max2 = max(color)         
-    if max2 > maxi:
-        maxi= max2
-        
